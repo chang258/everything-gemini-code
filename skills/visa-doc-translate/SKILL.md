@@ -1,23 +1,28 @@
 ﻿---
 name: visa-doc-translate
-description: 簽證申請文件翻譯助手。將證明文件（存款、在職等）圖片轉換為專業英文，並生成包含原件與譯文的雙語 PDF。
+description: 簽證文件翻譯助手 v2.0。支援圖片與多頁 PDF 輸入，自動產出交錯對照的雙語英文翻譯 PDF。
 ---
 
-# Visa Document Translation Assistant
+# Visa Document Translation Assistant (Multi-page Support)
 
-此技能專門用於處理簽證申請文件的翻譯與格式化工作，確保輸出符合官方申請標準。
+此技能現在支援將多頁的 PDF 證明文件或單張圖片，一鍵翻譯為專業的英文對照 PDF。
 
-## 自動化流程
-1. **圖片處理**: 自動轉換 HEIC 為 PNG，並根據 EXIF 自動校正旋轉。
-2. **OCR 提取**: 自動嘗試多種 OCR 引擎（Vision, EasyOCR, Tesseract）提取完整內容。
-3. **專業翻譯**: 採用簽證等級的術語，保留原件結構，精確翻譯日期與金額。
-4. **PDF 生成**: 產出雙語 PDF（第一頁原件，第二頁帶格式的譯文），並附帶認證翻譯聲明。
+## 核心能力
+- **格式相容**: 支援 `.jpg`, `.png`, `.pdf`。
+- **逐頁處理**: 針對 PDF 輸入，自動逐頁執行 OCR 與翻譯。
+- **對照佈局**: 產出「原頁 - 譯文」交錯排版的 PDF，方便核對。
 
-## 支援文件類型
-- 存款證明、收入證明、在職/退休證明、營業執照、房產證等。
+## 管理指令 (CLI)
+```powershell
+# 翻譯單張圖片
+python "$HOME\.gemini\skills\everything-gemini-code\skills\visa-doc-translate\scripts\translator.py" "path/to/image.jpg"
+
+# 翻譯多頁 PDF
+python "$HOME\.gemini\skills\everything-gemini-code\skills\visa-doc-translate\scripts\translator.py" "path/to/document.pdf"
+```
+
+## 環境依賴
+`pip install easyocr deep-translator reportlab pillow pymupdf`
 
 ---
-*註：所有的個人隱私數據應在 PDF 生成後立即從臨時目錄清理。*
-
-## 安裝與配置
-- **環境需求與 OCR 設定**: 請參閱深度指南 [references/technical-guide.md](references/technical-guide.md)。
+*註：PDF 輸入會以 200 DPI 進行採樣以確保 OCR 精確度。*
